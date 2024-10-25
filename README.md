@@ -1,6 +1,7 @@
 # voice-assistant
 
 ## TIP: If you want to cancel the speech in the middle of it, just do CTRL+C!
+By the way, make sure not to say nothing in your speech, or the speech detection will go mad with hallucinations.
 
 ### Description
 

@@ -7,7 +7,7 @@ import os
 
 # TODO: make some things in a config e.g. model name and wpm.
 
-ollama_model_name = 'mistral:7b'
+ollama_model_name = 'llama3.1:8b'
 
 context = "CONTEXT:\n"
 

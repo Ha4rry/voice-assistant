@@ -6,6 +6,7 @@ import threading
 import os
 import json
 import subprocess
+import multiprocessing
 
 try:
     with open('config.json', 'r') as config_file:
@@ -63,15 +64,32 @@ def enter_to_submit():
     input("Enter to submit.\n")
     stopped = True
     
+def start_ollama_server():
+        subprocess.run(
+        'ollama serve',
+        shell=True,
+        stdout=subprocess.DEVNULL, 
+        stderr=subprocess.STDOUT)
 
 try:
     try:
-      ollama.chat(ollama_model_name)
+        ollama.chat(ollama_model_name)
     except ollama.ResponseError as e:
-      print('Error:', e.error)
-      if e.status_code == 404:
-        print("Pulling " + ollama_model_name + "...")
-        ollama.pull(ollama_model_name)
+        print('Error:', e.error)
+        if e.status_code == 404:
+            print("Pulling " + ollama_model_name + "...")
+            ollama.pull(ollama_model_name)
+    except:
+        ollama_server_process = multiprocessing.Process(target=start_ollama_server)
+        ollama_server_process.start()
+        ollama_server_process_online=False
+        while ollama_server_process_online == False:
+            try:
+                ollama.chat(ollama_model_name)
+                ollama_server_process_online = True
+            except:
+                pass
+                
         
     p = pyaudio.PyAudio()  # Create an interface to PortAudio
     whisper_model = whisper.load_model(whisper_model_type)
@@ -167,13 +185,18 @@ except KeyboardInterrupt:
     #except:
         #pass
     try:
+        ollama_server_process.terminate()
+        print("Terminated Ollama Server Process")
+    except:
+        pass
+    try:
         ollama.chat(ollama_model_name, keep_alive=0)
-        print("cleared ollama model from memory")
+        print("Cleared ollama model from memory")
     except:
         pass
     try:
         del whisper_model
-        print("cleared whisper model from memory")
+        print("Cleared whisper model from memory")
     except:
         pass
     try:

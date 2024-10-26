@@ -7,7 +7,7 @@ import os
 
 # TODO: make some things in a config e.g. model name and wpm.
 
-ollama_model_name = 'mistral:7b'
+ollama_model_name = 'llama3.2:3b'
 
 context = "CONTEXT:\n"
 
@@ -75,7 +75,7 @@ try:
         
         
         
-        question = whisper_model.transcribe(prompt_audio_file_location)
+        question = whisper_model.transcribe(prompt_audio_file_location, prompt="The sentence may be cut off, do not make up words or characters to fill in the rest of the sentence.")
         
         os.remove(prompt_audio_file_location)
         
@@ -146,3 +146,4 @@ except KeyboardInterrupt:
         quit()
     except:
         pass
+

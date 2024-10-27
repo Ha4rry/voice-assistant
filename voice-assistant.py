@@ -63,13 +63,14 @@ def enter_to_submit():
     global stopped
     input("Enter to submit.\n")
     stopped = True
-    
+
 def start_ollama_server():
-        subprocess.run(
-        'ollama serve',
-        shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT)
+    subprocess.run(
+    'ollama serve',
+    shell=True,
+    stdout=subprocess.DEVNULL, 
+    stderr=subprocess.STDOUT,
+    )
 
 try:
     try:
@@ -112,11 +113,13 @@ try:
         while stopped == False:
             recording_data = recording_stream.read(chunk)
             frames.append(recording_data)
-        
+
         
         # Stop and close the stream 
         recording_stream.stop_stream()
         recording_stream.close()
+        
+
 
         
         # Save the recorded data as a WAV file
@@ -166,17 +169,17 @@ try:
             
             playing_data = playing_wf.readframes(chunk)
             # Play the sound by writing the audio data to the stream
-            i = 0
             try:
                 while playing_data:
                     playing_stream.write(playing_data)
                     playing_data = playing_wf.readframes(chunk)
             except KeyboardInterrupt:
-                pass
+                print("INTERRUPTING SPEECH IS BROKEN AND RESULTS IN ERRORS.")
         # Close and terminate the stream
         playing_stream.stop_stream()
         playing_stream.close()
         os.remove(response_audio_file_location)
+        
         
 except KeyboardInterrupt:
     #try: # TODO: fix this

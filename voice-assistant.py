@@ -20,7 +20,7 @@ except:
 
     default_config = {
     "ollama_model_name": "llama3.2:3b", 
-    "initial_system_prompt": "You are being spoken to a voice call. Say everything in words, do NOT output symbols under any circumstances, always convert them to word form, because the text to speech only supports words. Remember, you are intended to be listened to.",
+    "initial_system_prompt": "You are being spoken to a voice chat. Say everything in words, do NOT output symbols under any circumstances, always convert them to word form, because the text to speech only supports words. Remember, you are intended to be listened to.",
     "prompt_audio_file_location": "temp/user_prompt_audio.wav",
     "response_text_file_location": "temp/response.txt",
     "response_audio_file_location": "temp/response.wav",

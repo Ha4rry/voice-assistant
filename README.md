@@ -4,7 +4,7 @@
 
 ## Description
 
-program to speak to an AI with a microphone and be spoken back to through the output device using ollama, whisper, pyaudio and espeak 
+program to speak to an AI with a microphone and be spoken back to through the output device using ollama, whisper, pyaudio and piper
 
 ## IMPORTANT
 

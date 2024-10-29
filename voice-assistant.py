@@ -27,7 +27,7 @@ except:
     "whisper_model_type": "turbo",
     "whisper_prompt": "The sentence may be cut off, do not make up words or characters to fill in the rest of the sentence.",
     "piper_models_dir": "piper_models/",
-    "piper_model_name": "en_US-danny-low.onnx",
+    "piper_model_name": "en_GB-northern_english_male-medium.onnx",
     "piper_executable_location": "/opt/piper/piper",
     "wpm": 175
     }

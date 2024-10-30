@@ -20,7 +20,7 @@ except:
 
     default_config = {
     "ollama_model_name": "llama3.2:3b", 
-    "initial_system_prompt": "You are being spoken to a voice chat. Say everything in words, do NOT output symbols under any circumstances, always convert them to word form, because the text to speech only supports words. Remember, you are intended to be listened to.",
+    "initial_system_prompt": "Say everything in words, do NOT output symbols under any circumstances, always convert them to word form, because the text to speech only supports words.",
     "prompt_audio_file_location": "temp/user_prompt_audio.wav",
     "response_text_file_location": "temp/response.txt",
     "response_audio_file_location": "temp/response.wav",
@@ -28,8 +28,8 @@ except:
     "whisper_prompt": "The sentence may be cut off, do not make up words or characters to fill in the rest of the sentence.",
     "piper_models_dir": "piper_models/",
     "piper_model_name": "en_GB-northern_english_male-medium.onnx",
-    "piper_executable_location": "/opt/piper/piper",
-    "wpm": 175
+    "piper_executable_location": "/opt/piper/piper"#,
+    #"wpm": 175
     }
     
     with open(config_file_path, 'w') as config_file:
@@ -153,11 +153,14 @@ try:
         print(response['message']['content'])
         with open(response_text_file_location, 'w') as response_file:
             response_file.write(response['message']['content'])
-        subprocess.run(
-        str('echo """' + response['message']['content'] + '""" | ' + piper_executable_location + " --model "+ piper_models_dir + piper_model_name + " --output-file " + response_audio_file_location),
-        shell=True,
-        stdout=subprocess.DEVNULL, 
-        stderr=subprocess.STDOUT)
+        try:
+            subprocess.run(
+            str('echo """' + response['message']['content'] + '""" | ' + piper_executable_location + " --model "+ piper_models_dir + piper_model_name + " --output-file " + response_audio_file_location),
+            shell=True,
+            stdout=subprocess.DEVNULL, 
+            stderr=subprocess.STDOUT)
+        except:
+            print("Error with piper tts, make sure the piper executable location is specified in config.")
 
         os.remove(response_text_file_location)
         
@@ -182,11 +185,6 @@ try:
         
         
 except KeyboardInterrupt:
-    #try: # TODO: fix this
-        #lock.release() # doesnt work
-        #print("Released lock on enter to submit input thread")
-    #except:
-        #pass
     try:
         ollama_server_process.terminate()
         print("Terminated Ollama Server Process")
